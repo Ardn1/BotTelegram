@@ -45,11 +45,14 @@ public class RemoteDriver {
     ) throws InterruptedException {
         log.info("Getting url:{}", url);
 
-        if (webDriver.getSessionId() != null) {
+        if (webDriver == null || webDriver.getSessionId() == null) {
             try {
+                System.out.println("CREATE WEBD_RIVER " + ParseCommand.jopaCounter);
                 webDriver = new RemoteWebDriver(
                         URI.create(SELENOID_URL).toURL(),
                         capabilities);
+
+                System.out.println("CREATE WEBD_RIVER SESSION " + webDriver.getSessionId());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;

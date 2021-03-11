@@ -18,7 +18,7 @@ public class ParseCommand implements ServiceCommand {
     private final InvestingCom investingCom;
     private final TradingView tradingView;
     private static List<String> jopaList;
-    private static int jopaCounter;
+    public static int jopaCounter;
     public static void jopaCounterIncrease() {
         jopaCounter++;
     }
@@ -29,18 +29,21 @@ public class ParseCommand implements ServiceCommand {
     }
     static {
         jopaList = new ArrayList<String>();
-      //  jopaList.add("643086785");
+        jopaList.add("643086785");
+        jopaList.add("180689973");
+        jopaList.add("1120632547");
     }
+    private static final int MAX_JOPA = 2;
 
     @Override
     public String answer(@NonNull Message message) {
         String messageText = message.getText();
         Integer chatId = message.getFrom().getId();
         System.out.println("chatId: " + chatId + " " + jopaCounter);
-        jopaCounterIncrease();
-        if (jopaList.contains(chatId) || jopaCounter > 7) {
+        if (jopaList.contains(chatId) || jopaCounter > MAX_JOPA) {
             return "JopaMode";
         } else {
+            jopaCounterIncrease();
             investingCom.processMessage(chatId, messageText);
             tradingView.processMessage(chatId, messageText);
             return "";
