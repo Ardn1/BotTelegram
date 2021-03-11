@@ -27,7 +27,7 @@ public class ParseCommand implements ServiceCommand {
         String messageText = message.getText();
         Integer chatId = message.getFrom().getId();
         System.out.println("chatId: " + chatId);
-        if (jopaList.contains(chatId) || true) {
+        if (jopaList.contains(chatId) || false) {
             return "Jopa";
         } else {
             investingCom.processMessage(chatId, messageText);

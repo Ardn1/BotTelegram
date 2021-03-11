@@ -23,33 +23,41 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class RemoteDriver {
     private static final String SELENOID_URL = "http://127.0.0.1:4444/wd/hub";
     private static final DesiredCapabilities capabilities;
-
+    private static RemoteWebDriver webDriver;
     static {
         capabilities = new DesiredCapabilities();
         capabilities.setCapability("browserName", "chrome");
         capabilities.setCapability("browserVersion", "88.0");
-    }
-
-    public static List<String> parseData(
-            @NonNull String url,
-            @NonNull List<String> xpaths,
-            String clickXpath
-    ) throws InterruptedException {
-
-        log.info("Getting url:{}", url);
-        WebDriver webDriver;
         try {
             webDriver = new RemoteWebDriver(
                     URI.create(SELENOID_URL).toURL(),
                     capabilities);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
+            System.out.println(e);
+        }
+    }
+
+    public synchronized static List<String> parseData(
+            @NonNull String url,
+            @NonNull List<String> xpaths,
+            String clickXpath
+    ) throws InterruptedException {
+        log.info("Getting url:{}", url);
+
+        if (webDriver.getSessionId() != null) {
+            try {
+                webDriver = new RemoteWebDriver(
+                        URI.create(SELENOID_URL).toURL(),
+                        capabilities);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
         webDriver.get(url);
+
         Thread.sleep(750);
         if (clickXpath != null) {
             if (clickXpath.contains("//a")) {
@@ -70,7 +78,7 @@ public class RemoteDriver {
         } catch (Exception e) {
             return null;
         } finally {
-            webDriver.quit();
+          //  webDriver.quit();
         }
         return results;
     }
