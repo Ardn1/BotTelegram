@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.sech530.demo.commands.impl.ParseCommand;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -78,7 +79,7 @@ public class RemoteDriver {
         } catch (Exception e) {
             return null;
         } finally {
-          //  webDriver.quit();
+            ParseCommand.jopaCounterDecrease();
         }
         return results;
     }

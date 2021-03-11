@@ -3,6 +3,7 @@ package com.sech530.demo.commands.impl;
 import com.sech530.demo.commands.ServiceCommand;
 import com.sech530.demo.parser.impl.InvestingCom;
 import com.sech530.demo.parser.impl.TradingView;
+import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,15 @@ public class ParseCommand implements ServiceCommand {
     private final InvestingCom investingCom;
     private final TradingView tradingView;
     private static List<String> jopaList;
+    private static int jopaCounter;
+    public static void jopaCounterIncrease() {
+        jopaCounter++;
+    }
+    public static void jopaCounterDecrease() {
+        jopaCounter--;
+        if (jopaCounter < 0)
+            jopaCounter = 0;
+    }
     static {
         jopaList = new ArrayList<String>();
       //  jopaList.add("643086785");
@@ -26,9 +36,10 @@ public class ParseCommand implements ServiceCommand {
     public String answer(@NonNull Message message) {
         String messageText = message.getText();
         Integer chatId = message.getFrom().getId();
-        System.out.println("chatId: " + chatId);
-        if (jopaList.contains(chatId) || false) {
-            return "Jopa";
+        System.out.println("chatId: " + chatId + " " + jopaCounter);
+        jopaCounterIncrease();
+        if (jopaList.contains(chatId) || jopaCounter > 7) {
+            return "JopaMode";
         } else {
             investingCom.processMessage(chatId, messageText);
             tradingView.processMessage(chatId, messageText);
