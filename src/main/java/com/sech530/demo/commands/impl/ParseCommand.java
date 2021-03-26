@@ -29,18 +29,18 @@ public class ParseCommand implements ServiceCommand {
     }
     static {
         jopaList = new ArrayList<String>();
-        jopaList.add("643086785");
-        jopaList.add("180689973");
-        jopaList.add("1120632547");
+     //   jopaList.add("643086785");
+     //   jopaList.add("180689973");
+     //   jopaList.add("1120632547");
     }
     private static final int MAX_JOPA = 2;
-
+    private static final boolean JOPA_MODE = true;
     @Override
     public String answer(@NonNull Message message) {
         String messageText = message.getText();
         Integer chatId = message.getFrom().getId();
         System.out.println("chatId: " + chatId + " " + jopaCounter);
-        if (jopaList.contains(chatId) || jopaCounter > MAX_JOPA) {
+        if (jopaList.contains(chatId) || jopaCounter > MAX_JOPA || JOPA_MODE) {
             return "JopaMode";
         } else {
             jopaCounterIncrease();

@@ -4,6 +4,9 @@ import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MessageUtils {
     private static final String up = "\uD83D\uDCC8";
     private static final String down = "\uD83D\uDCC9";
